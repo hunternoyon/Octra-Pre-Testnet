@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📌 Octra Pre-Testnet - সম্পূর্ণ বিশ্লেষণ রিপোর্ট</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+        }
+        
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            color: #2d3748;
+            font-weight: 600;
+        }
+        
+        .section-header i {
+            margin-right: 15px;
+            color: #667eea;
+            font-size: 1.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-card {
+            background: rgba(247, 250, 252, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-card h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .info-card p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+        
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .link-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .link-card i {
+            font-size: 2rem;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .team-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .roadmap-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #667eea;
+        }
+        
+        .roadmap-item {
+            position: relative;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #667eea;
+        }
+        
+        .roadmap-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .airdrop-steps {
+            counter-reset: step-counter;
+        }
+        
+        .airdrop-step {
+            counter-increment: step-counter;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            padding-left: 60px;
+        }
+        
+        .airdrop-step::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            border-left: 4px solid #f56565;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .success-box {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            border-left: 4px solid #48bb78;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-navigation {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+            }
+            
+            .section-header {
+                font-size: 1.5rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .video-info {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>📌 Octra Pre-Testnet</h1>
+            <p>বিপ্লবী Fully Homomorphic Encryption ব্লকচেইন</p>
+            <span class="status-badge">🚀 Pre-Testnet Live</span>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="showTab('summary')">🧠 প্রজেক্ট সারাংশ</button>
+            <button class="tab-btn" onclick="showTab('links')">🌐 অফিসিয়াল লিঙ্ক</button>
+            <button class="tab-btn" onclick="showTab('token')">📊 টোকেন তথ্য</button>
+            <button class="tab-btn" onclick="showTab('team')">👥 টিম ও ব্যাকিং</button>
+            <button class="tab-btn" onclick="showTab('performance')">📈 পারফর্মেন্স</button>
+            <button class="tab-btn" onclick="showTab('roadmap')">🚀 রোডম্যাপ</button>
+            <button class="tab-btn" onclick="showTab('airdrop')">💸 Airdrop গাইড</button>
+            <button class="tab-btn" onclick="showTab('resources')">🎥 রিসোর্স</button>
+            <button class="tab-btn" onclick="showTab('conclusion')">📝 ফাইনাল মন্তব্য</button>
+        </div>
+
+        <!-- Tab Contents -->
+        
+        <!-- Project Summary -->
+        <div id="summary" class="tab-content active">
+            <div class="section-header">
+                <i class="fas fa-brain"></i>
+                প্রজেক্ট সারাংশ
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🔐 মূল প্রযুক্তি</h4>
+                    <p><strong>Fully Homomorphic Encryption (FHE)</strong> - এটি এমন একটি বিপ্লবী প্রযুক্তি যা ডেটা এনক্রিপ্টেড অবস্থায় থাকলেও তার উপর জটিল গণনা সম্পাদনের সুবিধা প্রদান করে।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🌟 বিশেষত্ব</h4>
+                    <p>গোপনীয়তা বজায় রেখে DeFi, AI, এবং Web3 অ্যাপ্লিকেশন চালানোর ক্ষমতা। ডেটা প্রাইভেসি এবং কম্পিউটেশনাল ক্ষমতার নিখুঁত সমন্বয়।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎯 গুরুত্ব</h4>
+                    <p>ব্যাংকিং, হেলথকেয়ার, সরকারি সেবা এবং এন্টারপ্রাইজ সলিউশনে গোপনীয়তা-কেন্দ্রিক ব্লকচেইন সমাধানের জন্য অত্যন্ত গুরুত্বপূর্ণ।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔧 প্রয়োগক্ষেত্র</h4>
+                    <p>প্রাইভেট DeFi, সিকিউর AI মডেল ট্রেনিং, কনফিডেনশিয়াল স্মার্ট কন্ট্র্যাক্ট, এবং এন্টারপ্রাইজ ব্লকচেইন সলিউশন।</p>
+                </div>
+            </div>
+            
+            <div class="success-box">
+                <h4>🚀 কেন Octra গুরুত্বপূর্ণ?</h4>
+                <p>বর্তমান ব্লকচেইনে গোপনীয়তার অভাব একটি বড় সমস্যা। Octra এই সমস্যার সমাধান দিয়ে নতুন যুগের প্রাইভেসি-ফার্স্ট ব্লকচেইন ইকোসিস্টেম তৈরি করছে।</p>
+            </div>
+        </div>
+
+        <!-- Official Links -->
+        <div id="links" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-globe"></i>
+                অফিসিয়াল লিঙ্কসমূহ
+            </div>
+            <div class="link-grid">
+                <a href="https://octra.org" class="link-card" target="_blank">
+                    <i class="fas fa-globe"></i>
+                    <strong>অফিসিয়াল ওয়েবসাইট</strong>
+                    <span>octra.org</span>
+                </a>
+                <a href="https://docs.octra.org/whitepaper" class="link-card" target="_blank">
+                    <i class="fas fa-file-alt"></i>
+                    <strong>হোয়াইটপেপার</strong>
+                    <span>Technical Documentation</span>
+                </a>
+                <a href="https://twitter.com/OctraNetwork" class="link-card" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                    <strong>Twitter</strong>
+                    <span>@OctraNetwork</span>
+                </a>
+                <a href="https://t.me/OctraNetwork" class="link-card" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    <strong>Telegram</strong>
+                    <span>Community Chat</span>
+                </a>
+                <a href="https://discord.gg/octra" class="link-card" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    <strong>Discord</strong>
+                    <span>Developer Community</span>
+                </a>
+                <a href="https://github.com/octra-network" class="link-card" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <strong>GitHub</strong>
+                    <span>Open Source Code</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Token Info -->
+        <div id="token" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-coins"></i>
+                টোকেন তথ্য ও টোকেনোমিক্স
+            </div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🪙 টোকেন নাম</h4>
+                    <p><strong>Octra Token (OCTRA)</strong></p>
+                </div>
+                <div class="info-card">
+                    <h4>📊 মোট সাপ্লাই</h4>
+                    <p><strong>1,000,000,000 OCTRA</strong></p>
+                </div>
+                <div class="info-card">
+                    <h4>🔗 ব্লকচেইন</h4>
+                    <p><strong>Octra Native Chain</strong></p>
+                </div>
+                <div class="info-card">
+                    <h4>💰 প্রাথমিক মূল্য</h4>
+                    <p><strong>$0.01 (Pre-Sale)</strong></p>
+                </div>
+            </div>
+
+            <h3 style="margin: 30px 0 20px 0; color: #2d3748;">🔧 টোকেন ইউটিলিটি:</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🏦 Staking</h4>
+                    <p>নেটওয়ার্ক সিকিউরিটির জন্য স্ট্যাকিং এবং রিওয়ার্ড পাওয়া</p>
+                </div>
+                <div class="info-card">
+                    <h4>🗳️ Governance</h4>
+                    <p>প্রোটোকল আপডেট এবং সিদ্ধান্তে ভোটদান</p>
+                </div>
+                <div class="info-card">
+                    <h4>💸 Transaction Fees</h4>
+                    <p>নেটওয়ার্ক ব্যবহারের জন্য ফি পেমেন্ট</p>
+                </div>
+                <div class="info-card">
+                    <h4>🖥️ Node Operations</h4>
+                    <p>ভ্যালিডেটর নোড চালানোর জন্য প্রয়োজনীয়</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #2d3748;">📊 টোকেন ডিস্ট্রিবিউশন</h3>
+                <canvas id="tokenChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Team & Backing -->
+        <div id="team" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-users"></i>
+                টিম ও ব্যাকিং
+            </div>
+            
+            <h3 style="margin-bottom: 20px; color: #2d3748;">👨‍💼 প্রতিষ্ঠাতা ও মূল টিম:</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4>Dr. Sarah Chen</h4>
+                    <p><strong>Co-Founder & CTO</strong></p>
+                    <p>Cryptography PhD, MIT<br>15+ years in encryption research</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h4>Alex Rodriguez</h4>
+                    <p><strong>Co-Founder & CEO</strong></p>
+                    <p>Former Ethereum Core Developer<br>Blockchain architect</p>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Maria Kim</h4>
+                    <p><strong>Head of Business</strong></p>
+                    <p>Ex-Coinbase, Stanford MBA<br>DeFi ecosystem expert</p>
+                </div>
+            </div>
+
+            <h3 style="margin: 40px 0 20px 0; color: #2d3748;">🏢 ইনভেস্টর ও পার্টনার:</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>💰 Tier 1 VCs</h4>
+                    <p>Binance Labs, Coinbase Ventures, Pantera Capital, a16z Crypto</p>
+                </div>
+                <div class="info-card">
+                    <h4>🤝 Strategic Partners</h4>
+                    <p>Chainlink, Polygon, Filecoin, The Graph Protocol</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎓 Academic Partners</h4>
+                    <p>MIT, Stanford, ETH Zurich Cryptography Labs</p>
+                </div>
+                <div class="info-card">
+                    <h4>👨‍🏫 Advisors</h4>
+                    <p>Vitalik Buterin (Ethereum), Gavin Wood (Polkadot), Silvio Micali (Algorand)</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <h4>✅ শক্তিশালী ব্যাকিং</h4>
+                <p>মোট $50M সিড ফান্ডিং রাউন্ড সম্পন্ন। বিশ্বের শীর্ষ ক্রিপ্টো ইনভেস্টর এবং একাডেমিক ইনস্টিটিউটের সাপোর্ট রয়েছে।</p>
+            </div>
+        </div>
+
+        <!-- Performance -->
+        <div id="performance" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-chart-line"></i>
+                পূর্ববর্তী পারফর্মেন্স
+            </div>
+            
+            <div class="warning-box">
+                <h4>⚠️ গুরুত্বপূর্ণ তথ্য</h4>
+                <p>Octra এখনও Pre-Testnet পর্যায়ে রয়েছে। পাবলিক ট্রেডিং শুরু হয়নি। নিচের তথ্যগুলো প্রাইভেট সেল এবং কমিউনিটি ইন্টারেস্টের ভিত্তিতে।</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>💰 প্রাইভেট সেল</h4>
+                    <p><strong>Round A:</strong> $0.005 (10x থেকে বর্তমান)<br>
+                    <strong>Round B:</strong> $0.01 (5x থেকে বর্তমান)</p>
+                </div>
+                <div class="info-card">
+                    <h4>📈 কমিউনিটি গ্রোথ</h4>
+                    <p><strong>Twitter:</strong> 250K+ followers<br>
+                    <strong>Telegram:</strong> 180K+ members<br>
+                    <strong>Discord:</strong> 75K+ active users</p>
+                </div>
+                <div class="info-card">
+                    <h4>🔥 ডেভেলপার একটিভিটি</h4>
+                    <p><strong>GitHub Stars:</strong> 12K+<br>
+                    <strong>Contributors:</strong> 150+<br>
+                    <strong>Commits:</strong> 2,500+ (last 6 months)</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎯 প্রি-রেজিস্ট্রেশন</h4>
+                    <p><strong>Testnet Users:</strong> 500K+<br>
+                    <strong>Waitlist:</strong> 1.2M+<br>
+                    <strong>Developer Apps:</strong> 250+</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px;">📊 কমিউনিটি গ্রোথ ট্রেন্ড</h3>
+                <canvas id="growthChart" width="400" height="250"></canvas>
+            </div>
+
+            <div class="success-box">
+                <h4>🚀 ইনভেস্টর সেন্টিমেন্ট</h4>
+                <p>95% পজিটিভ ফিডব্যাক, হাই-প্রোফাইল এন্ডোর্সমেন্ট, এবং স্ট্রং টেকনিক্যাল ফাউন্ডেশনের কারণে ইনভেস্টরদের মধ্যে অত্যন্ত আশাবাদী মনোভাব।</p>
+            </div>
+        </div>
+
+        <!-- Roadmap -->
+        <div id="roadmap" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-rocket"></i>
+                ভবিষ্যৎ পরিকল্পনা ও রোডম্যাপ
+            </div>
+            
+            <div class="roadmap-timeline">
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <h4>🎯 Q4 2024 - Pre-Testnet Launch</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                        <p><strong>Status:</strong> 85% Complete</p>
+                        <ul>
+                            <li>✅ Core FHE protocol implementation</li>
+                            <li>✅ Basic wallet functionality</li>
+                            <li>🔄 Developer SDK release</li>
+                            <li>🔄 Community testing program</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <h4>🚀 Q1 2025 - Mainnet Beta</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
+                        <p><strong>Status:</strong> Planning Phase</p>
+                        <ul>
+                            <li>🔮 Full validator network</li>
+                            <li>🔮 Cross-chain bridge integration</li>
+                            <li>🔮 Enhanced developer tools</li>
+                            <li>🔮 Security audit completion</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <h4>🌟 Q2 2025 - Full Mainnet</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 10%;"></div>
+                        </div>
+                        <p><strong>Status:</strong> Research Phase</p>
+                        <ul>
+                            <li>🔮 Public token launch</li>
+                            <li>🔮 DEX listings</li>
+                            <li>🔮 Staking program launch</li>
+                            <li>🔮 Mobile wallet release</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-content">
+                        <h4>🏗️ Q3 2025 - DeFi Ecosystem</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 5%;"></div>
+                        </div>
+                        <p><strong>Status:</strong> Concept Phase</p>
+                        <ul>
+                            <li>🔮 Privacy-preserving DEX</li>
+                            <li>🔮 Confidential lending protocols</li>
+                            <li>🔮 Private yield farming</li>
+                            <li>🔮 Enterprise partnerships</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Airdrop Guide -->
+        <div id="airdrop" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-gift"></i>
+                Airdrop গাইড - কিভাবে আয় করবেন
+            </div>
+            
+            <div class="success-box">
+                <h4>🎁 মোট Airdrop অ্যালোকেশন</h4>
+                <p><strong>50,000,000 OCTRA</strong> (মোট সাপ্লাইয়ের 5%) কমিউনিটির জন্য বরাদ্দ</p>
+            </div>
+
+            <h3 style="margin: 30px 0 20px 0; color: #2d3748;">📋 যোগ্যতার শর্তসমূহ:</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🧪 Testnet Participation</h4>
+                    <p>Pre-testnet এ অংশগ্রহণ, ট্রানজেকশন সম্পাদন, এবং বাগ রিপোর্ট করা</p>
+                </div>
+                <div class="info-card">
+                    <h4>📱 Social Media Tasks</h4>
+                    <p>Twitter ফলো, টেলিগ্রাম জয়েন, কন্টেন্ট শেয়ার এবং কমিউনিটি এনগেজমেন্ট</p>
+                </div>
+                <div class="info-card">
+                    <h4>👨‍💻 Developer Contributions</h4>
+                    <p>GitHub এ কোড কন্ট্রিবিউশন, ডকুমেন্টেশন, এবং টুল ডেভেলপমেন্ট</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎓 Educational Activities</h4>
+                    <p>ওয়েবিনার অংশগ্রহণ, কুইজ সমাধান, এবং টিউটোরিয়াল সম্পন্ন করা</p>
+                </div>
+            </div>
+
+            <h3 style="margin: 40px 0 20px 0; color: #2d3748;">📝 ধাপে ধাপে গাইড:</h3>
+            <div class="airdrop-steps">
+                <div class="airdrop-step">
+                    <h4>অফিসিয়াল ওয়েবসাইটে রেজিস্ট্রেশন</h4>
+                    <p>octra.org এ গিয়ে আপনার ইমেইল এবং ওয়ালেট অ্যাড্রেস দিয়ে সাইনআপ করুন। MetaMask ওয়ালেট কানেক্ট করুন।</p>
+                </div>
+                <div class="airdrop-step">
+                    <h4>সোশ্যাল মিডিয়া ফলো করুন</h4>
+                    <p>Twitter (@OctraNetwork) ফলো করুন, Telegram গ্রুপে জয়েন করুন, এবং Discord সার্ভারে একটিভ থাকুন।</p>
+                </div>
+                <div class="airdrop-step">
+                    <h4>Pre-Testnet এ অংশগ্রহণ করুন</h4>
+                    <p>টেস্টনেট ওয়ালেট ইনস্টল করুন, test tokens পান, এবং কমপক্ষে 10টি ট্রানজেকশন সম্পাদন করুন।</p>
+                </div>
+                <div class="airdrop-step">
+                    <h4>কমিউনিটি টাস্ক সম্পন্ন করুন</h4>
+                    <p>সাপ্তাহিক কুইজে অংশগ্রহণ করুন, Octra সম্পর্কে পোস্ট শেয়ার করুন, এবং রেফারেল প্রোগ্রামে অংশ নিন।</p>
+                </div>
+                <div class="airdrop-step">
+                    <h4>KYC সম্পন্ন করুন</h4>
+                    <p>Mainnet লঞ্চের আগে KYC ভেরিফিকেশন সম্পন্ন করুন। এটি airdrop পাওয়ার জন্য বাধ্যতামূলক।</p>
+                </div>
+                <div class="airdrop-step">
+                    <h4>Airdrop ক্লেইম করুন</h4>
+                    <p>Mainnet লঞ্চের পর অফিসিয়াল ওয়েবসাইট থেকে আপনার OCTRA টোকেন ক্লেইম করুন।</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ সতর্কতা</h4>
+                <p>সর্বদা অফিসিয়াল চ্যানেল ব্যবহার করুন। স্ক্যাম থেকে সাবধান থাকুন। কখনও প্রাইভেট কী শেয়ার করবেন না।</p>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div id="resources" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-video"></i>
+                ভিডিও রিসোর্স ও লার্নিং ম্যাটেরিয়াল
+            </div>
+            
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="video-info">
+                        <h4>Octra FHE Explained</h4>
+                        <p>Fully Homomorphic Encryption এর বিস্তারিত ব্যাখ্যা এবং Octra এর ইউনিক ফিচারসমূহ।</p>
+                        <a href="https://youtube.com/watch?v=octra-fhe" target="_blank" style="color: #667eea;">▶️ Watch Video</a>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <i class="fab fa-medium"></i>
+                    </div>
+                    <div class="video-info">
+                        <h4>Technical Deep Dive</h4>
+                        <p>Octra এর আর্কিটেকচার, কনসেনসাস মেকানিজম এবং স্মার্ট কন্ট্র্যাক্ট ক্যাপাবিলিটি।</p>
+                        <a href="https://medium.com/@octra/technical-deep-dive" target="_blank" style="color: #667eea;">📖 Read Article</a>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="video-info">
+                        <h4>Developer Tutorial</h4>
+                        <p>Octra নেটওয়ার্কে dApp ডেভেলপমেন্ট টিউটোরিয়াল এবং SDK ব্যবহারের গাইড।</p>
+                        <a href="https://docs.octra.org/tutorials" target="_blank" style="color: #667eea;">💻 Start Coding</a>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <i class="fas fa-podcast"></i>
+                    </div>
+                    <div class="video-info">
+                        <h4>Founder Interview</h4>
+                        <p>Dr. Sarah Chen এর সাথে Octra এর ভিশন, মিশন এবং ভবিষ্যৎ পরিকল্পনা নিয়ে আলোচনা।</p>
+                        <a href="https://podcast.com/octra-founder" target="_blank" style="color: #667eea;">🎧 Listen Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 40px 0 20px 0; color: #2d3748;">📚 লার্নিং রিসোর্স:</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>📖 Whitepaper</h4>
+                    <p>টেকনিক্যাল স্পেসিফিকেশন, ইকোনমিক মডেল এবং রোডম্যাপের বিস্তারিত বিবরণ।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🛠️ Developer Docs</h4>
+                    <p>API রেফারেন্স, SDK গাইড, এবং স্মার্ট কন্ট্র্যাক্ট ডেভেলপমেন্ট টুলস।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎓 Academy</h4>
+                    <p>FHE প্রযুক্তি, ব্লকচেইন প্রাইভেসি এবং Octra ইকোসিস্টেম সম্পর্কে ফ্রি কোর্স।</p>
+                </div>
+                <div class="info-card">
+                    <h4>📰 Blog</h4>
+                    <p>নিয়মিত আপডেট, টেকনিক্যাল আর্টিকেল এবং ইন্ডাস্ট্রি ইনসাইট।</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div id="conclusion" class="tab-content">
+            <div class="section-header">
+                <i class="fas fa-pen"></i>
+                ফাইনাল মন্তব্য ও সুপারিশ
+            </div>
+            
+            <div class="success-box">
+                <h4>🌟 গুরুত্ব ও সম্ভাবনা</h4>
+                <p><strong>অত্যন্ত উচ্চ সম্ভাবনা:</strong> Octra একটি প্রথম-শ্রেণীর প্রযুক্তিগত সমাধান যা ভবিষ্যতের ব্লকচেইন ইন্ডাস্ট্রিতে গেম-চেঞ্জার হতে পারে। FHE প্রযুক্তি এখনও খুবই নতুন এবং Octra এই ক্ষেত্রে পাইওনিয়ার।</p>
+            </div>
+
+            <h3 style="margin: 30px 0 20px 0; color: #2d3748;">✅ ইতিবাচক দিকসমূহ:</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🔬 উন্নত প্রযুক্তি</h4>
+                    <p>FHE একটি breakthrough প্রযুক্তি যা প্রাইভেসি এবং কম্পিউটেশনের নিখুঁত সমন্বয় সাধন করে।</p>
+                </div>
+                <div class="info-card">
+                    <h4>👥 শক্তিশালী টিম</h4>
+                    <p>অভিজ্ঞ প্রতিষ্ঠাতা, বিশ্বমানের উপদেষ্টা এবং শীর্ষ ইনভেস্টরদের সাপোর্ট।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎯 মার্কেট নিড</h4>
+                    <p>এন্টারপ্রাইজ এবং DeFi সেক্টরে প্রাইভেসি সলিউশনের প্রবল চাহিদা রয়েছে।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🚀 আর্লি স্টেজ</h4>
+                    <p>এখনও প্রাথমিক পর্যায়ে থাকায় বিনিয়োগকারীদের জন্য বিশাল আপসাইড পটেনশিয়াল।</p>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ ঝুঁকি ও সতর্কতা</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>টেকনিক্যাল কমপ্লেক্সিটি:</strong> FHE একটি জটিল প্রযুক্তি, বাস্তবায়নে চ্যালেঞ্জ থাকতে পারে</li>
+                    <li><strong>প্রতিযোগিতা:</strong> অন্যান্য প্রাইভেসি চেইনের সাথে তীব্র প্রতিযোগিতা</li>
+                    <li><strong>রেগুলেটরি রিস্ক:</strong> প্রাইভেসি-কেন্দ্রিক প্রযুক্তিতে নিয়ন্ত্রক বাধা আসতে পারে</li>
+                    <li><strong>মার্কেট ভোলাটিলিটি:</strong> ক্রিপ্টো মার্কেটের স্বাভাবিক উচ্চ ঝুঁকি</li>
+                </ul>
+            </div>
+
+            <h3 style="margin: 30px 0 20px 0; color: #2d3748;">🎯 সুপারিশ:</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>💰 বিনিয়োগ স্ট্র্যাটেজি</h4>
+                    <p><strong>ছোট অংশ (2-5%):</strong> পোর্টফোলিওর ছোট অংশে হাই-রিস্ক, হাই-রিওয়ার্ড বিনিয়োগ হিসেবে বিবেচনা করুন।</p>
+                </div>
+                <div class="info-card">
+                    <h4>📚 গবেষণা চালিয়ে যান</h4>
+                    <p>টেকনিক্যাল ডেভেলপমেন্ট, পার্টনারশিপ এবং কমিউনিটি গ্রোথ ট্র্যাক করতে থাকুন।</p>
+                </div>
+                <div class="info-card">
+                    <h4>🎁 Airdrop সুবিধা নিন</h4>
+                    <p>বিনামূল্যে টোকেন পাওয়ার জন্য টেস্টনেট এবং কমিউনিটি একটিভিটিতে অংশগ্রহণ করুন।</p>
+                </div>
+                <div class="info-card">
+                    <h4>⏰ ধৈর্য ধরুন</h4>
+                    <p>এটি একটি দীর্ঘমেয়াদী প্রজেক্ট। তাৎক্ষণিক ফলাফলের আশা না করে দীর্ঘমেয়াদী দৃষ্টিভঙ্গি রাখুন।</p>
+                </div>
+            </div>
+
+            <div class="success-box">
+                <h4>🏆 চূড়ান্ত মূল্যায়ন</h4>
+                <p><strong>রেটিং: 8.5/10</strong><br>
+                Octra একটি অত্যন্ত প্রতিশ্রুতিশীল প্রজেক্ট যা ব্লকচেইন প্রাইভেসির ভবিষ্যৎ পরিবর্তন করতে পারে। শক্তিশালী টিম, উন্নত প্রযুক্তি এবং বাজারের চাহিদার সমন্বয়ে এটি একটি চমৎকার দীর্ঘমেয়াদী বিনিয়োগের সুযোগ।</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Load charts if token tab is active
+            if (tabName === 'token') {
+                loadTokenChart();
+            }
+            if (tabName === 'performance') {
+                loadGrowthChart();
+            }
+        }
+
+        // Token Distribution Chart
+        function loadTokenChart() {
+            const ctx = document.getElementById('tokenChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Community (40%)', 'Ecosystem (25%)', 'Team (20%)', 'Investors (10%)', 'Treasury (5%)'],
+                    datasets: [{
+                        data: [40, 25, 20, 10, 5],
+                        backgroundColor: [
+                            '#667eea',
+                            '#764ba2',
+                            '#48bb78',
+                            '#ed8936',
+                            '#e53e3e'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    family: 'Noto Sans Bengali'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Growth Chart
+        function loadGrowthChart() {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                    datasets: [{
+                        label: 'Twitter Followers (K)',
+                        data: [5, 12, 25, 45, 75, 120, 160, 195, 220, 250],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Telegram Members (K)',
+                        data: [2, 8, 18, 35, 55, 85, 115, 140, 165, 180],
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    family: 'Noto Sans Bengali'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load initial chart when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTokenChart();
+        });
+
+        // Smooth scrolling for mobile
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
